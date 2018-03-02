@@ -11,7 +11,7 @@
 
 
 
-@interface EUExPDFReader()<ReaderViewControllerDelegate>
+@interface EUExPDFReader()<ReaderViewControllerDelegate,UIWebViewDelegate>
 @property (nonatomic,strong)ReaderViewController *readerController;
 @property (nonatomic,strong)UIWebView *pdfView;
 @end
@@ -22,8 +22,12 @@
 
 - (void)openPDFReader:(NSMutableArray *)inArguments{
     
-    ACArgsUnpack(NSString *inPath) = inArguments;
+    ACArgsUnpack(NSString *inPath,ACJSFunctionRef *callback) = inArguments;
+    
     if (!inPath) {
+        
+        [callback executeWithArguments: ACArgsPack(@(1))];
+
         return;
     }
     NSString *absPath = [self absPath:inPath];
@@ -42,21 +46,29 @@
     NSString *phrase = nil;
 	ReaderDocument *document = [ReaderDocument withDocumentFilePath:absPath password:phrase];
     if (!document) {
+        
+        [callback executeWithArguments: ACArgsPack(@(1))];
+        
         return;
     }
-    
+    else
+    {
+        [callback executeWithArguments: ACArgsPack(@(0))];
+    }
 
     if (!self.readerController) {
         self.readerController = [[ReaderViewController alloc] initWithReaderDocument:document];
     }
     self.readerController.delegate = self;
     [[self.webViewEngine viewController] presentViewController:self.readerController animated:YES completion:nil];
+    
 }
 
 
 
 - (void)openView:(NSMutableArray *)inArguments{
-    ACArgsUnpack(NSDictionary *info) = inArguments;
+    ACArgsUnpack(NSDictionary *info,ACJSFunctionRef *callback) = inArguments;
+
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     NSNumber *xNumber = numberArg(info[@"x"]);
     NSNumber *yNumber = numberArg(info[@"y"]);
@@ -77,11 +89,15 @@
     
     self.pdfView.frame = CGRectMake(x, y, width, height);
     [self.pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:absPath]]];
+    self.pdfView.delegate = self;
+    [callback executeWithArguments: ACArgsPack(@(1))];
+
     if (scrollWithWeb) {
         [[self.webViewEngine webScrollView] addSubview:self.pdfView];
     }else{
         [[self.webViewEngine webView] addSubview:self.pdfView];
     }
+    
 }
 
 - (void)closeView:(NSMutableArray *)inArguments{
@@ -104,7 +120,29 @@
     self.readerController = nil;
 }
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+//    NSLog(@"%ld",(long)navigationType);
+    return YES;
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    
+    if (webView.isLoading) {
+        
+        
+        return;
+    }
+}
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+//    NSLog(@"webViewDidStartLoad");
+}
 
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+//    NSLog(@"didFailLoadWithError");
+}
 
 - (void)clean{
     [self close:nil];

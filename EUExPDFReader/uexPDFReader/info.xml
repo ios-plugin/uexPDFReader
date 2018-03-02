@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexPDFReader" version="4.0.1" build="1">
-        <info>1: 支持view级别的pdf预览</info>
+        uexName="uexPDFReader" version="4.0.2" build="2">
+        <info>2: 增加openPDFReader回调</info>
+        <build>1: 支持view级别的pdf预览</build>
         <build>0: PDF阅读器功能插件</build>
     </plugin>
 </uexplugins>

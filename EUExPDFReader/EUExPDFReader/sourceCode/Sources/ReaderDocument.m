@@ -254,6 +254,7 @@
 			object = self; // Return initialized ReaderDocument object
 		}
 	}
+    
 
 	return object;
 }
