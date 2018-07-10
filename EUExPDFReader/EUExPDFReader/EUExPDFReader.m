@@ -30,6 +30,12 @@
 
         return;
     }
+    
+    //这里是为了防止前端在某些框架的影响下，多次调用同一方法导致崩溃
+    if (self.readerController) {
+        return;
+    }
+    
     NSString *absPath = [self absPath:inPath];
     NSString *kResScheme = @"res://";
     if ([inPath hasPrefix:kResScheme]) {
@@ -68,6 +74,11 @@
 
 - (void)openView:(NSMutableArray *)inArguments{
     ACArgsUnpack(NSDictionary *info,ACJSFunctionRef *callback) = inArguments;
+    
+    //这里是为了防止前端在某些框架的影响下，多次调用同一方法导致崩溃
+    if (self.pdfView) {
+        return;
+    }
 
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     NSNumber *xNumber = numberArg(info[@"x"]);
@@ -102,6 +113,7 @@
 
 - (void)closeView:(NSMutableArray *)inArguments{
     [self.pdfView removeFromSuperview];
+    self.pdfView.delegate = nil;
     self.pdfView = nil;
 }
 
