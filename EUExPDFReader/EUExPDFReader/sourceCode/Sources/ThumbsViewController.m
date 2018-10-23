@@ -18,7 +18,9 @@
 
 #pragma mark Constants
 
-#define TOOLBAR_HEIGHT 44.0f
+#define iPhoneX ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && MAX([UIScreen mainScreen].bounds.size.height,[UIScreen mainScreen].bounds.size.width) == 812)
+
+#define TOOLBAR_HEIGHT (iPhoneX ? 88 : 44)
 
 #define PAGE_THUMB_SMALL 160
 #define PAGE_THUMB_LARGE 256

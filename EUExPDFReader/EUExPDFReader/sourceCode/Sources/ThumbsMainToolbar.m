@@ -13,8 +13,10 @@
 
 #pragma mark Constants
 
+#define iPhoneX ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && MAX([UIScreen mainScreen].bounds.size.height,[UIScreen mainScreen].bounds.size.width) == 812)
+
 #define BUTTON_X 8.0f
-#define BUTTON_Y 8.0f
+#define BUTTON_Y (iPhoneX ? 52 : 8)
 #define BUTTON_SPACE 8.0f
 #define BUTTON_HEIGHT 30.0f
 
