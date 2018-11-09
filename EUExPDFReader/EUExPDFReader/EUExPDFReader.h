@@ -10,6 +10,8 @@
 
 #import <AppCanKit/AppCanKit.h>
 
+#define kStringWithFormat(object) object?[NSString stringWithFormat:@"%@",object]:nil
+
 
 @interface EUExPDFReader : EUExBase
 

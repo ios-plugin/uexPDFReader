@@ -48,6 +48,7 @@
 		5A9FF0C71890A84500E16C52 /* ThumbsMainToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9FF0B01890A84500E16C52 /* ThumbsMainToolbar.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A9FF0C81890A84500E16C52 /* ThumbsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9FF0B21890A84500E16C52 /* ThumbsViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A9FF0C91890A84500E16C52 /* UIXToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9FF0B41890A84500E16C52 /* UIXToolbarView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C628055D2192FAA60033CBDC /* UexEMMGTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = C628055B2192FAA60033CBDC /* UexEMMGTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,9 @@
 		5A9FF0B21890A84500E16C52 /* ThumbsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbsViewController.m; sourceTree = "<group>"; };
 		5A9FF0B31890A84500E16C52 /* UIXToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIXToolbarView.h; sourceTree = "<group>"; };
 		5A9FF0B41890A84500E16C52 /* UIXToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIXToolbarView.m; sourceTree = "<group>"; };
+		C628055A2192FAA60033CBDC /* UexEMMGTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UexEMMGTMBase64.h; sourceTree = "<group>"; };
+		C628055B2192FAA60033CBDC /* UexEMMGTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UexEMMGTMBase64.m; sourceTree = "<group>"; };
+		C628055C2192FAA60033CBDC /* UexEMMGTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UexEMMGTMDefines.h; sourceTree = "<group>"; };
 		FC16252A18AB6BCD00BEF700 /* EUExPDFReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EUExPDFReader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -249,6 +253,7 @@
 		5A9FF08A1890A84400E16C52 /* sourceCode */ = {
 			isa = PBXGroup;
 			children = (
+				C62805592192FA880033CBDC /* GTMBase64 */,
 				427A05481EADE91A002BC8DE /* AppCanKit.framework */,
 				5A9FF08E1890A84500E16C52 /* ReaderViewController.h */,
 				5A9FF08F1890A84500E16C52 /* ReaderViewController.m */,
@@ -298,6 +303,16 @@
 				5A9FF0B41890A84500E16C52 /* UIXToolbarView.m */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		C62805592192FA880033CBDC /* GTMBase64 */ = {
+			isa = PBXGroup;
+			children = (
+				C628055A2192FAA60033CBDC /* UexEMMGTMBase64.h */,
+				C628055B2192FAA60033CBDC /* UexEMMGTMBase64.m */,
+				C628055C2192FAA60033CBDC /* UexEMMGTMDefines.h */,
+			);
+			path = GTMBase64;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -415,6 +430,7 @@
 				5A9FF0BB1890A84500E16C52 /* ReaderContentTile.m in Sources */,
 				5A9FF0C71890A84500E16C52 /* ThumbsMainToolbar.m in Sources */,
 				5A9FF0BA1890A84500E16C52 /* ReaderContentPage.m in Sources */,
+				C628055D2192FAA60033CBDC /* UexEMMGTMBase64.m in Sources */,
 				5A9FF0C01890A84500E16C52 /* ReaderThumbCache.m in Sources */,
 				5A9FF0C21890A84500E16C52 /* ReaderThumbQueue.m in Sources */,
 				5A9FF0BE1890A84500E16C52 /* ReaderMainPagebar.m in Sources */,
