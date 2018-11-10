@@ -29,7 +29,7 @@
 /// encoding.  You must use the webSafe* methods together, the data does not
 /// interop with the RFC methods.
 //
-@interface UexEMMGTMBase64 : NSObject
+@interface UexPDFGTMBase64 : NSObject
 
 //
 // Standard Base64 (RFC) handling

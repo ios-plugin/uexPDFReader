@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexPDFReader" version="4.0.5" build="2018110801">
-         <info>5: 防止重复调用打开pdf页面方法时闪退，但再次调用打开方法时务必要确认上次打开后调用了对应的关闭方法，否则可能会出现打不开的现象</info>
+        uexName="uexPDFReader" version="4.0.5" build="2018110901">
+         <info>5: 添加打开PDF解密定制逻辑</info>
         <build>4: 防止重复调用打开pdf页面方法时闪退，但再次调用打开方法时务必要确认上次打开后调用了对应的关闭方法，否则可能会出现打不开的现象</build>
         <build>3: 适配iPhone X</build>
         <build>2: 增加openPDFReader回调</build>

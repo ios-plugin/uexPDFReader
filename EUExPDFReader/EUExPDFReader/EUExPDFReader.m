@@ -8,7 +8,7 @@
 
 #import "EUExPDFReader.h"
 #import "ReaderViewController.h"
-#import "UexEMMGTMBase64.h"
+#import "UexPDFGTMBase64.h"
 
 
 
@@ -134,7 +134,7 @@ static char arrayForEncode[Key_Count] = "appcan@3g2win.com";
         // 读取被加密文件对应的数据
         NSData *dataEncoded = [NSData dataWithContentsOfFile:filePath];
         // 对NSData进行base64解码
-        NSData *dataDecode = [UexEMMGTMBase64 decodeData:dataEncoded];
+        NSData *dataDecode = [UexPDFGTMBase64 decodeData:dataEncoded];
         
         // 对前1000位进行异或处理
         unsigned char * cByte = (unsigned char*)[dataDecode bytes];
@@ -163,7 +163,7 @@ static char arrayForEncode[Key_Count] = "appcan@3g2win.com";
         }
         
         //对NSData进行base64编码
-        NSData *imageDataEncode = [UexEMMGTMBase64 encodeData:imageDataOrigin];
+        NSData *imageDataEncode = [UexPDFGTMBase64 encodeData:imageDataOrigin];
          NSLog(@"加密成功");
         NSLog(@"=================%@",newFilePath);
         return [imageDataEncode writeToFile:newFilePath atomically:YES];

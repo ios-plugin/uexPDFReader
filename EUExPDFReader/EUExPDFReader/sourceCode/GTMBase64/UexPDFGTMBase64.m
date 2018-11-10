@@ -17,7 +17,7 @@
 //  the License.
 //
 
-#import "UexEMMGTMBase64.h"
+#import "UexPDFGTMBase64.h"
 #import "UexEMMGTMDefines.h"
 
 static const char *kBase64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -214,7 +214,7 @@ GTM_INLINE NSUInteger GuessDecodedLength(NSUInteger srcLen) {
 }
 
 
-@interface UexEMMGTMBase64 (PrivateMethods)
+@interface UexPDFGTMBase64 (PrivateMethods)
 
 +(NSData *)baseEncode:(const void *)bytes
                length:(NSUInteger)length
@@ -243,7 +243,7 @@ GTM_INLINE NSUInteger GuessDecodedLength(NSUInteger srcLen) {
 @end
 
 
-@implementation UexEMMGTMBase64
+@implementation UexPDFGTMBase64
 
 //
 // Standard Base64 (RFC) handling
@@ -398,7 +398,7 @@ GTM_INLINE NSUInteger GuessDecodedLength(NSUInteger srcLen) {
 
 @end
 
-@implementation UexEMMGTMBase64 (PrivateMethods)
+@implementation UexPDFGTMBase64 (PrivateMethods)
 
 //
 // baseEncode:length:charset:padded:
