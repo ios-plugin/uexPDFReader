@@ -48,6 +48,8 @@
 
 + (ReaderDocument *)unarchiveFromFileName:(NSString *)filename password:(NSString *)phrase;
 
++ (NSString *)GUID;
+
 - (id)initWithFilePath:(NSString *)fullFilePath password:(NSString *)phrase;
 
 - (void)saveReaderDocument;

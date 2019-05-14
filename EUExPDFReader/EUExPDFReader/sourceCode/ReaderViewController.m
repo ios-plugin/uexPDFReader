@@ -817,7 +817,7 @@
 	[[ReaderThumbQueue sharedInstance] cancelOperationsWithGUID:document.guid];
 
 	[[ReaderThumbCache sharedInstance] removeAllObjects]; // Empty the thumb cache
-
+    
 	if (printInteraction != nil) [printInteraction dismissAnimated:NO]; // Dismiss
 
 	if ([delegate respondsToSelector:@selector(dismissReaderViewController:)] == YES)

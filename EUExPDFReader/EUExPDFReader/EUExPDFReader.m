@@ -15,6 +15,8 @@
 @interface EUExPDFReader()<ReaderViewControllerDelegate,UIWebViewDelegate>
 @property (nonatomic,strong)ReaderViewController *readerController;
 @property (nonatomic,strong)UIWebView *pdfView;
+@property(copy,nonatomic)NSString *filepath;
+
 @end
 
 @implementation EUExPDFReader
@@ -36,7 +38,6 @@
     if (self.readerController) {
         return;
     }
-    
     NSString *absPath = [self absPath:inPath];
     NSString *kResScheme = @"res://";
     if ([inPath hasPrefix:kResScheme]) {
@@ -50,31 +51,37 @@
     
     //判断是否是加密的PDF(isEncryptValue:是否为加密  1：加密  0：非加密)
     if (isEncryptValue == 1) {
-        [self func_decodeFile:absPath withNewName:absPath];
+        //将获取到的文件路径放入PreferencePanes目录（临时文件，避免在沙盒中查到）
+        ReaderDocument *document = [ReaderDocument withDocumentFilePath:absPath password:nil];
+        NSString *documentPath2 = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES).firstObject;
+        NSString *fileName = [ReaderDocument GUID];
+        NSString *preferencePanesPath = [documentPath2 stringByAppendingPathComponent:fileName];
+        NSLog(@"ssssssss  === %@",absPath);
+        [self func_decodeFile:absPath withNewName:preferencePanesPath];
+         absPath = preferencePanesPath;
+         self.filepath = preferencePanesPath;
     }
-    
+  
     //Document password (for unlocking most encrypted PDF files)
     NSString *phrase = nil;
     ReaderDocument *document = [ReaderDocument withDocumentFilePath:absPath password:phrase];
+    
     if (!document) {
         
         [callback executeWithArguments: ACArgsPack(@(1))];
-        
+         NSLog(@"没有PDF文件");
         return;
     }
-    else
+    else 
     {
         [callback executeWithArguments: ACArgsPack(@(0))];
-        NSLog(@"%s [ReaderDocument withDocumentFilePath:'%@' password:'%@'] failed.", __FUNCTION__, absPath, phrase);
-        NSLog(@"没有PDF文件");
+       
     }
     if (!self.readerController) {
         self.readerController = [[ReaderViewController alloc] initWithReaderDocument:document withEUExObj:self];
     }
     self.readerController.delegate = self;
     [[self.webViewEngine viewController] presentViewController:self.readerController animated:YES completion:nil];
-   
- 
 }
 
 
@@ -117,12 +124,12 @@
 
 #define Key_Count (17)//加密字符串长度
 static char arrayForEncode[Key_Count] = "appcan@3g2win.com";
-
--(BOOL)func_decodeFile:(NSString *)filePath withNewName:(NSString*)newFilePath {
+#pragma mark -----  解密method
+-(BOOL)func_decodeFile:(NSString *)filePath withNewName:(NSString *)newFilePath {
     if (nil == filePath || NO == [[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         NSString *jsString = [NSString stringWithFormat:@"uexPDFReader.cbFileDecrypt(\"0\",\"0\",\'');"];
         if ([NSThread isMainThread]) {
-           // [self.meBrwView stringByEvaluatingJavaScriptFromString:jsString];
+            // [self.meBrwView stringByEvaluatingJavaScriptFromString:jsString];
             [self.webViewEngine evaluateScript:jsString];
             
         }else{
@@ -142,12 +149,18 @@ static char arrayForEncode[Key_Count] = "appcan@3g2win.com";
         {
             *cByte = (*cByte) ^ arrayForEncode[index];
         }
-         NSLog(@"解密成功");
-        NSLog(@"解密路径============== %@",newFilePath);
-        return [dataDecode writeToFile:newFilePath atomically:YES];
+        NSLog(@"解密成功");
+        BOOL yes = [dataDecode writeToFile:newFilePath atomically:NO];
+        if (yes) {
+            NSLog(@"解密文件写入成功");
+        }else{
+            NSLog(@"解密文件写入失败");
+        }
+        return yes;
     }
 }
 
+#pragma mark -----  加密method（暂时没有被调用到）
 -(BOOL)func_encodeFile:(NSString *)filePath withNewName:(NSString*)newFilePath {
     if (nil == filePath || NO == [[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         return NO;
@@ -246,6 +259,11 @@ static char arrayForEncode[Key_Count] = "appcan@3g2win.com";
 
 
 - (void)dismissReaderViewController:(ReaderViewController *)viewController{
+    //MARK:关闭查看PDF时删除解密存储文件。
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:self.filepath error:nil];
+    
+    NSLog(@"self.filepath ===============  %@",self.filepath);
     [self close:nil];
     
 }
