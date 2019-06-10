@@ -15,8 +15,10 @@
 #import "ReaderMainPagebar.h"
 #import "ThumbsViewController.h"
 
+
 @class ReaderViewController;
 @class ReaderMainToolbar;
+@class EUExPDFReader;
 
 @protocol ReaderViewControllerDelegate <NSObject>
 
@@ -55,6 +57,9 @@
 //@property(nonatomic,weak) EUExPDFReader *uexObj;
 @property (nonatomic, assign, readwrite) id <ReaderViewControllerDelegate> delegate;
 
-- (id)initWithReaderDocument:(ReaderDocument *)object;
+
+- (id)initWithReaderDocument:(ReaderDocument *)object withEUExObj:(EUExPDFReader *)euexPDFReader;
+
+- (instancetype)initWithEUExObj:(EUExPDFReader *)euexPDFReader;
 
 @end

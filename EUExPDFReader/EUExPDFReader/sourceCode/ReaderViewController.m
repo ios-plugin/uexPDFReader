@@ -10,6 +10,13 @@
 #import "ReaderViewController.h"
 #import "ReaderThumbCache.h"
 #import "ReaderThumbQueue.h"
+#import "EUExPDFReader.h"
+
+@interface ReaderViewController()
+
+@property (nonatomic,strong)EUExPDFReader *euexPDFReader;
+
+@end
 
 @implementation ReaderViewController
 
@@ -27,6 +34,16 @@
 #pragma mark Properties
 
 @synthesize delegate;
+
+
+- (instancetype)initWithEUExObj:(EUExPDFReader *)euexPDFReader{
+    self = [super init];
+    if (self) {
+        _euexPDFReader = euexPDFReader;
+    }
+    return self;
+}
+
 
 #pragma mark Support methods
 
@@ -254,7 +271,7 @@
 
 #pragma mark UIViewController methods
 
-- (id)initWithReaderDocument:(ReaderDocument *)object
+- (id)initWithReaderDocument:(ReaderDocument *)object withEUExObj:(EUExPDFReader *)euexPDFReader
 {
 #ifdef DEBUGX
 	NSLog(@"%s", __FUNCTION__);
@@ -266,6 +283,7 @@
 	{
 		if ((self = [super initWithNibName:nil bundle:nil])) // Designated initializer
 		{
+            _euexPDFReader = euexPDFReader;
 			NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
 			[notificationCenter addObserver:self selector:@selector(applicationWill:) name:UIApplicationWillTerminateNotification object:nil];
@@ -799,7 +817,7 @@
 	[[ReaderThumbQueue sharedInstance] cancelOperationsWithGUID:document.guid];
 
 	[[ReaderThumbCache sharedInstance] removeAllObjects]; // Empty the thumb cache
-
+    
 	if (printInteraction != nil) [printInteraction dismissAnimated:NO]; // Dismiss
 
 	if ([delegate respondsToSelector:@selector(dismissReaderViewController:)] == YES)
@@ -811,6 +829,21 @@
 	{
 		NSAssert(NO, @"Delegate must respond to -dismissReaderViewController:");
 	}
+    
+    NSDictionary *dict = @{
+                           @"status":@"1"
+                           };
+    //ac_JSONFragment 方法，可以将NSDictionary转换成JSON字符串
+    [self.euexPDFReader.webViewEngine callbackWithFunctionKeyPath:@"uexPDFReader.cbDoCallback"
+                                          arguments:ACArgsPack(dict.ac_JSONFragment)
+                                         completion:^(JSValue * _Nullable returnValue) {
+                                             if (returnValue) {
+                                               //  ACLogDebug(@"回调成功!");
+                                                 NSLog(@"回调成功!");
+                                             }
+                                         }];
+    
+    
     
 #endif // end of READER_STANDALONE Option
 }
